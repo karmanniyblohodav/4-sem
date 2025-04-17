@@ -32,6 +32,10 @@ void print_list(const std::list<int>& lst) {
     std::cout << std::endl;
 }
 
+/**
+* @brief Точка входа в программу
+* @return 0 в случае успеха
+*/
 int main() {
     setlocale(LC_ALL, "RU");
     int n1, n2;
