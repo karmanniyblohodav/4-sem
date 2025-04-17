@@ -3,6 +3,10 @@
 #include <iterator>
 #include <algorithm>
 
+/**
+* @brief Точка входа в программу
+* @return 0 в случае успеха
+*/
 int main() {
     std::string filename = "name.txt";
     std::ifstream file(filename);
