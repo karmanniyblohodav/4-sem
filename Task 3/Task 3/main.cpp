@@ -5,13 +5,20 @@
 
 using namespace std;
 
-// Функция для получения последней цифры числа
+/**
+* @brief Получает последнюю цифру числа
+* @param num Входное число
+* @return Последняя цифра числа по модулю
+*/
 int getLastDigit(int num) {
     return abs(num % 10);
 }
 
+/**
+* @brief Точка входа в программу
+* @return 0 в случае успеха
+*/
 int main() {
-    // Ввод вектора
     vector<int> V;
     int n, x;
     
@@ -24,23 +31,18 @@ int main() {
         V.push_back(x);
     }
     
-    // Создание мультиотображения для группировки
     multimap<int, int> M;
     
-    // Заполнение мультиотображения элементами, сгруппированными по последней цифре
     for (vector<int>::iterator it = V.begin(); it != V.end(); ++it) {
         M.insert(make_pair(getLastDigit(*it), *it));
     }
-    
-    // Вычисление сумм для каждой группы (исключая первый элемент)
+   
     map<int, int> sums;
     
-    // Инициализация сумм нулями
     for (int i = 0; i < 10; i++) {
         sums[i] = 0;
     }
     
-    // Вычисление сумм для каждой группы
     for (int digit = 0; digit < 10; digit++) {
         bool isFirst = true;
         auto range = M.equal_range(digit);
@@ -52,7 +54,6 @@ int main() {
         }
     }
     
-    // Вывод результатов
     cout << "\nСуммы групп (исключая первый элемент в каждой группе):\n";
     for (const auto& pair : sums) {
         if (M.count(pair.first) > 0) {
@@ -60,7 +61,6 @@ int main() {
         }
     }
     
-    // Вывод содержимого мультиотображения
     cout << "\nСодержимое мультиотображения:\n";
     for (multimap<int, int>::iterator it = M.begin(); it != M.end(); ++it) {
         cout << "Ключ: " << it->first << ", Значение: " << it->second << endl;
