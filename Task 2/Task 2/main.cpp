@@ -10,35 +10,20 @@
  * @param name Имя списка (для отображения в подсказке).
  * @return Список, заполненный пользователем.
  */
-std::list<int> input_list(int count, const std::string& name) {
-    std::list<int> lst;
-    int value;
-    std::cout << "Введите " << count << " элементов для " << name << ":" << std::endl;
-    for (int i = 0; i < count; ++i) {
-        std::cin >> value;
-        lst.push_back(value);
-    }
-    return lst;
-}
+std::list<int> input_list(int count, const std::string& name);
 
 /**
  * @brief Функция для вывода списка на экран.
  * @param lst Список для вывода.
  */
-void print_list(const std::list<int>& lst) {
-    for (int val : lst) {
-        std::cout << val << " ";
-    }
-    std::cout << std::endl;
-}
+void print_list(const std::list<int>& lst);
 
 /**
 * @brief Точка входа в программу
 * @return 0 в случае успеха
 */
 int main() {
-    setlocale(LC_ALL, "RU");
-    int n1, n2;
+    int n1, n2 = 0;
 
     std::cout << "Введите количество элементов в L1 (нечетное): ";
     std::cin >> n1;
@@ -66,4 +51,22 @@ int main() {
     print_list(L2);
 
     return 0;
+}
+
+std::list<int> input_list(int count, const std::string& name) {
+    std::list<int> lst;
+    int value = 0;
+    std::cout << "Введите " << count << " элементов для " << name << ":" << std::endl;
+    for (int i = 0; i < count; ++i) {
+        std::cin >> value;
+        lst.push_back(value);
+    }
+    return lst;
+}
+
+void print_list(const std::list<int>& lst) {
+    for (int val : lst) {
+        std::cout << val << " ";
+    }
+    std::cout << std::endl;
 }
