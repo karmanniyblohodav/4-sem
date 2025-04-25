@@ -23,24 +23,17 @@ void print_list(const std::list<int>& lst);
 * @return 0 в случае успеха
 */
 int main() {
-    int n1, n2 = 0;
+    std::list<int> L1 = input_list("L1");
 
-    std::cout << "Введите количество элементов в L1 (нечетное): ";
-    std::cin >> n1;
-
-    if (n1 < 1 || n1 % 2 == 0) {
-        std::cerr << "Количество элементов в L1 должно быть нечетным и положительным." << std::endl;
+    if (L1.size() < 1 || L1.size() % 2 == 0) {
+        std::cerr << "L1 должно содержать нечетное и положительное количество элементов." << std::endl;
         return 1;
     }
 
-    std::list<int> L1 = input_list(n1, "L1");
-
-    std::cout << "Введите количество элементов в L2: ";
-    std::cin >> n2;
-    std::list<int> L2 = input_list(n2, "L2");
+    std::list<int> L2 = input_list("L2");
 
     auto mid = L1.begin();
-    std::advance(mid, n1 / 2);
+    std::advance(mid, L1.size() / 2);
 
     L2.splice(L2.end(), L1, mid);
 
@@ -53,14 +46,15 @@ int main() {
     return 0;
 }
 
-std::list<int> input_list(int count, const std::string& name) {
+std::list<int> input_list(const std::string& name) {
     std::list<int> lst;
     int value = 0;
-    std::cout << "Введите " << count << " элементов для " << name << ":" << std::endl;
-    for (int i = 0; i < count; ++i) {
-        std::cin >> value;
+
+    std::cout << "Введите элементы для " << name << std::endl;
+    while (std::cin >> value && value != 0) {
         lst.push_back(value);
     }
+
     return lst;
 }
 
