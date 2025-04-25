@@ -2,69 +2,76 @@
 #include <vector>
 #include <map>
 #include <iomanip>
+#include <algorithm>
+#include <numeric>
+#include <functional>
 
 using namespace std;
 
 /**
-* @brief Получает последнюю цифру числа
-* @param num Входное число
-* @return Последняя цифра числа по модулю
-*/
-int getLastDigit(int num) {
-    return abs(num % 10);
-}
+ * @brief Получает последнюю цифру числа
+ * @param num Входное число
+ * @return Последняя цифра числа по модулю
+ */
+int getLastDigit(int num);
 
 /**
-* @brief Точка входа в программу
-* @return 0 в случае успеха
-*/
+ * @brief Точка входа в программу
+ * @return 0 в случае успеха
+ */
 int main() {
     vector<int> V;
-    int n, x;
+    int x;
     
-    cout << "Введите количество элементов: ";
-    cin >> n;
-    
-    cout << "Введите " << n << " элементов:\n";
-    for (int i = 0; i < n; i++) {
-        cin >> x;
+    cout << "Введите элементы вектора:\n";
+    while (cin >> x && x != 0) {
         V.push_back(x);
     }
     
+    if (V.empty()) {
+        cout << "Вектор пуст!\n";
+        return 1;
+    }
+    
+    // Создание мультиотображения с помощью transform
     multimap<int, int> M;
+    transform(V.begin(), V.end(), 
+             inserter(M, M.begin()),
+             [](int x) { return make_pair(getLastDigit(x), x); });
     
-    for (vector<int>::iterator it = V.begin(); it != V.end(); ++it) {
-        M.insert(make_pair(getLastDigit(*it), *it));
-    }
-   
+    // Вычисление сумм для каждой группы
     map<int, int> sums;
-    
-    for (int i = 0; i < 10; i++) {
-        sums[i] = 0;
-    }
-    
-    for (int digit = 0; digit < 10; digit++) {
-        bool isFirst = true;
+    for (int digit = 0; digit < 10; ++digit) {
         auto range = M.equal_range(digit);
-        for (auto it = range.first; it != range.second; ++it) {
-            if (!isFirst) {
-                sums[digit] += it->second;
-            }
-            isFirst = false;
+        if (range.first != range.second) {
+            // Пропускаем первый элемент и суммируем остальные
+            multimap<int, int>::iterator next_it = next(range.first);
+            sums[digit] = accumulate(next_it, range.second, 0,
+                                   [](int sum, const pair<const int, int>& p) {
+                                       return sum + p.second;
+                                   });
         }
     }
     
+    // Вывод результатов с помощью for_each
     cout << "\nСуммы групп (исключая первый элемент в каждой группе):\n";
-    for (const auto& pair : sums) {
-        if (M.count(pair.first) > 0) {
-            cout << "Цифра " << pair.first << ": сумма = " << pair.second << endl;
-        }
-    }
+    for_each(sums.begin(), sums.end(),
+             [&M](const pair<const int, int>& p) {
+                 if (M.count(p.first) > 0) {
+                     cout << "Цифра " << p.first << ": сумма = " << p.second << endl;
+                 }
+             });
     
+    // Вывод мультиотображения с помощью for_each
     cout << "\nСодержимое мультиотображения:\n";
-    for (multimap<int, int>::iterator it = M.begin(); it != M.end(); ++it) {
-        cout << "Ключ: " << it->first << ", Значение: " << it->second << endl;
-    }
+    for_each(M.begin(), M.end(),
+             [](const pair<const int, int>& p) {
+                 cout << "Ключ: " << p.first << ", Значение: " << p.second << endl;
+             });
     
     return 0;
+}
+
+int getLastDigit(int num) {
+    return abs(num % 10);
 }
