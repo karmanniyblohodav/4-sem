@@ -33,18 +33,15 @@ int main() {
         return 1;
     }
     
-    // Создание мультиотображения с помощью transform
     multimap<int, int> M;
     transform(V.begin(), V.end(), 
              inserter(M, M.begin()),
              [](int x) { return make_pair(getLastDigit(x), x); });
     
-    // Вычисление сумм для каждой группы
     map<int, int> sums;
     for (int digit = 0; digit < 10; ++digit) {
         auto range = M.equal_range(digit);
         if (range.first != range.second) {
-            // Пропускаем первый элемент и суммируем остальные
             multimap<int, int>::iterator next_it = next(range.first);
             sums[digit] = accumulate(next_it, range.second, 0,
                                    [](int sum, const pair<const int, int>& p) {
@@ -53,7 +50,6 @@ int main() {
         }
     }
     
-    // Вывод результатов с помощью for_each
     cout << "\nСуммы групп (исключая первый элемент в каждой группе):\n";
     for_each(sums.begin(), sums.end(),
              [&M](const pair<const int, int>& p) {
@@ -62,7 +58,6 @@ int main() {
                  }
              });
     
-    // Вывод мультиотображения с помощью for_each
     cout << "\nСодержимое мультиотображения:\n";
     for_each(M.begin(), M.end(),
              [](const pair<const int, int>& p) {
