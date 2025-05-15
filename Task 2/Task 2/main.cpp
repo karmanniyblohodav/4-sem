@@ -10,7 +10,7 @@
  * @param name Имя списка (для отображения в подсказке).
  * @return Список, заполненный пользователем.
  */
-std::list<int> input_list(int count, const std::string& name);
+std::list<int> input_list(const std::string& name);
 
 /**
  * @brief Функция для вывода списка на экран.
@@ -48,11 +48,16 @@ int main() {
 
 std::list<int> input_list(const std::string& name) {
     std::list<int> lst;
-    int value = 0;
+    std::string line;
 
-    std::cout << "Введите элементы для " << name << std::endl;
-    while (std::cin >> value && value != 0) {
-        lst.push_back(value);
+    std::cout << "Введите элементы для " << name << " (пустая строка для завершения):" << std::endl;
+    while (std::getline(std::cin, line) && !line.empty()) {
+        try {
+            int value = std::stoi(line);
+            lst.push_back(value);
+        } catch (const std::invalid_argument&) {
+            std::cout << "Ошибка: введите корректное число" << std::endl;
+        }
     }
 
     return lst;
