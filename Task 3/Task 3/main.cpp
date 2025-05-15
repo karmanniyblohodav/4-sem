@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <numeric>
 #include <functional>
+#include <string>
 
 using namespace std;
 
@@ -21,11 +22,16 @@ int getLastDigit(int num);
  */
 int main() {
     vector<int> V;
-    int x;
+    string line;
     
-    cout << "Введите элементы вектора:\n";
-    while (cin >> x && x != 0) {
-        V.push_back(x);
+    cout << "Введите элементы вектора (для завершения ввода введите пустую строку):\n";
+    while (getline(cin, line) && !line.empty()) {
+        try {
+            int x = stoi(line);
+            V.push_back(x);
+        } catch (const invalid_argument&) {
+            cout << "Ошибка: введите целое число или пустую строку для завершения\n";
+        }
     }
     
     if (V.empty()) {
