@@ -6,11 +6,25 @@
 #include <string>
 
 /**
- * @brief Структура point представляет точку с координатами x, y и строковым значением s.
+ * @brief Класс point представляет точку с координатами x, y и строковым значением s.
  */
-struct point {
+class point {
+private:
     int x, y;
     std::string s;
+
+public:
+    point() : x(0), y(0), s("") {}
+    
+    point(int x, int y, const std::string& s) : x(x), y(y), s(s) {}
+
+    int getX() const { return x; }
+    int getY() const { return y; }
+    const std::string& getS() const { return s; }
+
+    void setX(int newX) { x = newX; }
+    void setY(int newY) { y = newY; }
+    void setS(const std::string& newS) { s = newS; }
 
     /**
      * @brief Оператор чтения из входного потока
@@ -63,10 +77,9 @@ int main() {
     }
 
     std::istream_iterator<point> start(file), end;
-
     std::ostream_iterator<std::string> output(std::cout, "\n");
 
-    point replacement{ 0, 0, "A" };
+    point replacement(0, 0, "A");
 
     std::replace_copy_if(
         start, end,          
