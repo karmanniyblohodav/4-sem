@@ -21,9 +21,6 @@ int getLastDigit(int num);
  * @return 0 в случае успеха
  */
 int main() {
-    vector<int> V;
-    string line;
-    
     cout << "Введите элементы вектора (для завершения ввода введите пустую строку):\n";
     std::vector<int> V((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
     }
