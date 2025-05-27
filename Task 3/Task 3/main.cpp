@@ -6,6 +6,7 @@
 #include <numeric>
 #include <functional>
 #include <string>
+#include <iterator>
 
 using namespace std;
 
@@ -23,7 +24,6 @@ int getLastDigit(int num);
 int main() {
     cout << "Введите элементы вектора (для завершения ввода введите пустую строку):\n";
     std::vector<int> V((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
-    }
     
     if (V.empty()) {
         cout << "Вектор пуст!\n";
