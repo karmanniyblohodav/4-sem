@@ -25,13 +25,7 @@ int main() {
     string line;
     
     cout << "Введите элементы вектора (для завершения ввода введите пустую строку):\n";
-    while (getline(cin, line) && !line.empty()) {
-        try {
-            int x = stoi(line);
-            V.push_back(x);
-        } catch (const invalid_argument&) {
-            cout << "Ошибка: введите целое число или пустую строку для завершения\n";
-        }
+    std::vector<int> V((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
     }
     
     if (V.empty()) {
